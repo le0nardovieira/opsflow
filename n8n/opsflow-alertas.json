@@ -1,0 +1,101 @@
+{
+  "name": "OpsFlow - Alertas prioritarios",
+  "nodes": [
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "opsflow-chamados",
+        "options": {}
+      },
+      "id": "opsflow-webhook",
+      "name": "Webhook",
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2,
+      "position": [
+        0,
+        0
+      ],
+      "webhookId": "opsflow-chamados"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "id": "priority-condition",
+              "leftValue": "={{ String($json.body.priority ?? $json.body.prioridade ?? '').trim().toLowerCase().normalize('NFD').replace(/[\\u0300-\\u036f]/g, '') }}",
+              "rightValue": "^(alta|critica|high|critical)$",
+              "operator": {
+                "type": "string",
+                "operation": "regex"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "id": "opsflow-if",
+      "name": "Prioridade alta ou critica",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.2,
+      "position": [
+        240,
+        0
+      ]
+    },
+    {
+      "parameters": {
+        "resource": "message",
+        "operation": "send",
+        "toRecipients": "seu-email@example.com",
+        "subject": "={{ '[OpsFlow] Chamado prioritário #' + $json.body.id + ' - ' + $json.body.title }}",
+        "bodyContent": "={{ ['Novo chamado prioritário no OpsFlow', '', 'ID: ' + $json.body.id, 'Título: ' + $json.body.title, 'Prioridade: ' + $json.body.priority, 'Descrição: ' + ($json.body.description ?? ''), '', 'Acesse o OpsFlow para acompanhar o atendimento.'].join(String.fromCharCode(10)) }}",
+        "additionalFields": {}
+      },
+      "id": "opsflow-outlook",
+      "name": "Enviar alerta Outlook",
+      "type": "n8n-nodes-base.microsoftOutlook",
+      "typeVersion": 2,
+      "position": [
+        480,
+        -80
+      ]
+    }
+  ],
+  "connections": {
+    "Webhook": {
+      "main": [
+        [
+          {
+            "node": "Prioridade alta ou critica",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Prioridade alta ou critica": {
+      "main": [
+        [
+          {
+            "node": "Enviar alerta Outlook",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        []
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1"
+  }
+}
