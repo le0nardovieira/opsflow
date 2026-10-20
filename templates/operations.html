@@ -1,0 +1,38 @@
+{% extends "base.html" %}{% block content %}
+<h1>Operações • registro de chegada</h1>
+<p class="muted">MVP de geolocalização pontual para Safari no iPhone ou navegador. Não rastreia em segundo plano. Use apenas dados fictícios.</p>
+<div class="grid">
+<section class="panel"><h2>Novo atendimento</h2>
+<form method="post" action="/operacoes">
+<label>Local fictício</label><input name="site" maxlength="120" placeholder="Unidade de teste A" required>
+<label>Responsável fictício</label><input name="staff" maxlength="100" placeholder="Colaborador de teste" required>
+<button>Criar atendimento</button></form></section>
+<section class="panel"><h2>Como funciona no iPhone</h2>
+<p>1. Abra esta página em uma origem HTTPS ou localhost.</p>
+<p>2. Toque em <b>Registrar minha chegada</b>.</p>
+<p>3. O navegador solicitará sua permissão de localização.</p>
+<p>4. A posição, precisão e horário de recebimento serão armazenados para este atendimento.</p>
+<p class="muted small">O registro requer consentimento por ação e não comprova presença física contra falsificação de GPS. Em aparelho real, use HTTPS; localhost do computador não é localhost do iPhone.</p>
+</section></div>
+<div class="panel"><h2>Atendimentos</h2><div id="feedback" role="status" aria-live="polite"></div>
+<table><thead><tr><th>ID</th><th>Local</th><th>Responsável</th><th>Status</th><th>Precisão</th><th>Chegada (UTC)</th><th>Ação</th></tr></thead><tbody>
+{% for v in visits %}<tr><td>#{{v.id}}</td><td>{{v.site}}</td><td>{{v.staff}}</td><td><span class="badge">{{v.status}}</span></td>
+<td>{% if v.accuracy_m is not none %}{{ '%.0f'|format(v.accuracy_m) }} m{% else %}—{% endif %}</td>
+<td>{{v.arrived_at or '—'}}</td><td>{% if v.status == 'Planejado' %}<button type="button" onclick="checkIn({{v.id}})">Registrar minha chegada</button>{% else %}Registrado{% endif %}</td></tr>{% else %}<tr><td colspan="7">Nenhum atendimento cadastrado.</td></tr>{% endfor %}
+</tbody></table></div>
+<script>
+async function checkIn(id){
+ const feedback=document.getElementById('feedback');
+ if (!window.isSecureContext || !navigator.geolocation){feedback.textContent='Localização exige HTTPS (ou localhost) e navegador compatível.';return;}
+ feedback.textContent='Solicitando permissão e capturando localização…';
+ navigator.geolocation.getCurrentPosition(async pos=>{
+  try {
+   const response=await fetch('/api/visits/'+id+'/checkin',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({consent:true,latitude:pos.coords.latitude,longitude:pos.coords.longitude,accuracy_m:pos.coords.accuracy})});
+   const data=await response.json();
+   if(!response.ok){feedback.textContent=data.error || 'Erro ao registrar chegada.';return;}
+   feedback.textContent=data.message;location.reload();
+  }catch(err){feedback.textContent='Erro de conexão; verifique e tente novamente.';}
+ },err=>{const msgs={1:'Permissão de localização negada.',2:'Localização indisponível.',3:'Tempo esgotado ao obter localização.'};feedback.textContent=msgs[err.code]||'Falha ao obter localização.';},{enableHighAccuracy:true,timeout:12000,maximumAge:0});
+}
+</script>
+{% endblock %}

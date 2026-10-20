@@ -1,0 +1,36 @@
+<!doctype html>
+<html lang="pt-br">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#181818">
+<title>OpsFlow | Gestão e automação</title>
+<style>
+:root{font-family:Inter,"Segoe UI",system-ui,Arial,sans-serif;background:#f4f3f0;color:#202020;font-synthesis:none;--orange:#f56b12;--ink:#181818;--line:#e2e0db}*{box-sizing:border-box}body{margin:0}header{background:var(--ink);color:#fff;border-top:4px solid var(--orange);padding:24px max(4vw,20px) 0;display:flex;gap:24px;align-items:center;flex-wrap:wrap}.brand{display:flex;align-items:center;gap:22px;text-decoration:none;color:#fff}.wordmark{font-style:italic;font-weight:900;font-size:27px;line-height:1;letter-spacing:-1px;white-space:nowrap}.wordmark strong{color:var(--orange)}.wordmark small{display:block;font-size:8px;font-weight:600;letter-spacing:3.5px;text-align:right;margin-top:7px;color:#d2d2d2;font-style:normal}.product{border-left:1px solid #505050;padding-left:22px;font-size:19px;font-weight:700;letter-spacing:-.5px}.product small{display:block;color:#b5b5b5;font-size:10px;font-weight:500;letter-spacing:1.5px;text-transform:uppercase;margin-top:4px}.demo{margin-left:auto;border:1px solid #57504a;color:#e3d7cb;padding:7px 10px;border-radius:5px;font-size:10px;letter-spacing:1px;text-transform:uppercase}nav{display:flex;gap:8px;width:100%;flex-wrap:wrap;margin-top:2px}a{color:#a94100;text-decoration:none}nav a{color:#c5c5c5;padding:14px 15px;border-bottom:3px solid transparent;font-size:13px;font-weight:550}nav a:hover,nav a[aria-current=page]{color:#fff;background:#242424;border-bottom-color:var(--orange)}main{max-width:1180px;margin:32px auto;padding:0 20px}.muted{color:#6b6b68}.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:18px}.panel{background:#fff;border:1px solid var(--line);border-radius:12px;padding:23px;margin-bottom:22px;overflow:auto;box-shadow:0 3px 12px #17171704}.grid>.panel{border-top:3px solid var(--orange)}.stat{font-size:36px;font-weight:800;color:#252525;letter-spacing:-1.5px;margin-top:7px}input,select,textarea{width:100%;padding:11px 12px;border:1px solid #cecec8;border-radius:7px;background:#fafaf8;color:#242424;margin:7px 0 15px;font:inherit;font-size:14px}textarea{min-height:96px;resize:vertical}label{font-size:12px;font-weight:650;color:#494945}input:focus,select:focus,textarea:focus{outline:2px solid #f56b1260;outline-offset:2px;border-color:#a94100}button{background:var(--orange);border:1px solid #da5909;border-radius:7px;padding:11px 17px;font-weight:750;color:#171717;cursor:pointer;transition:background .15s}button:hover{background:#ff8a3f}button:focus-visible,a:focus-visible{outline:3px solid #b74600;outline-offset:3px}button:disabled{opacity:.55;cursor:wait}table{width:100%;border-collapse:collapse;min-width:610px}td,th{padding:15px 12px;border-bottom:1px solid #eae8e3;text-align:left}th{font-size:10px;text-transform:uppercase;letter-spacing:1px;color:#73736e;background:#fafaf8}td{font-size:13px}tbody tr:hover{background:#fffbf7}h1{font-size:30px;letter-spacing:-1px;margin:0 0 9px;font-weight:750}h2{font-size:18px;letter-spacing:-.4px;margin-top:0}.badge{background:#f1efeb;border:1px solid #e2dfd8;padding:5px 10px;border-radius:5px;font-size:11px;color:#403d36;white-space:nowrap}.tag{color:#a94100}.alert{padding:14px 16px;background:#fff4e9;border:1px solid #f3cba8;border-left:4px solid var(--orange);border-radius:7px;margin:12px 0 22px;font-size:13px;line-height:1.6}.alert.error{background:#fff0f0;border-color:#dca9a9;border-left-color:#b02e2e}.alert.warning{background:#fff7e6;border-color:#dfc482;border-left-color:#a87305}.row{display:flex;gap:10px;align-items:center;flex-wrap:wrap}.row select{width:auto;margin:0;max-width:100%}.row button{padding:9px 12px}.small{font-size:12px;line-height:1.6}footer{max-width:1140px;margin:40px auto 24px;border-top:1px solid var(--line);padding:20px;color:#73736e;font-size:11px;display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap}footer strong{color:#3e3e3a;font-weight:650}.skip{position:absolute;left:-9999px}.skip:focus{left:15px;top:10px;background:#fff;padding:10px;z-index:5}@media(max-width:700px){header{padding:20px 16px 0;gap:18px}.brand{gap:15px}.wordmark{font-size:23px}.product{font-size:17px;padding-left:15px}.demo{margin-left:0}nav{gap:0}nav a{padding:12px 9px;font-size:11px}main{margin:24px auto;padding:0 14px}.grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}.panel{padding:17px}.stat{font-size:30px}h1{font-size:25px}footer{margin:28px 14px 20px;padding:16px 0}}@media(max-width:360px){.grid{grid-template-columns:1fr}.product small{letter-spacing:.5px}}
+</style>
+</head>
+<body>
+<a class="skip" href="#conteudo">Ir para o conteúdo</a>
+<header>
+<a class="brand" href="/" aria-label="OpsFlow — Gestão e automação">
+<span class="wordmark"><strong>OPS</strong>FLOW<small>GESTÃO E AUTOMAÇÃO</small></span>
+<span class="product">OpsFlow<small>Central de operações</small></span>
+</a>
+<span class="demo">Projeto demonstrativo</span>
+<nav aria-label="Navegação principal">
+<a href="/" {% if request.path == '/' %}aria-current="page"{% endif %}>Dashboard / Chamados</a>
+<a href="/financeiro" {% if request.path == '/financeiro' %}aria-current="page"{% endif %}>Financeiro</a>
+<a href="/operacoes" {% if request.path == '/operacoes' %}aria-current="page"{% endif %}>Operações / Localização</a>
+<a href="/auditoria" {% if request.path == '/auditoria' %}aria-current="page"{% endif %}>Auditoria</a>
+<a href="/health" target="_blank" rel="noopener">Health check ↗</a>
+</nav>
+</header>
+<main id="conteudo">
+{% with msgs=get_flashed_messages(with_categories=true) %}
+{% for category,msg in msgs %}<div class="alert {{ category }}" role="status">{{msg}}</div>{% endfor %}
+{% endwith %}
+{% block content %}{% endblock %}
+</main>
+<footer><strong>OpsFlow · Portfólio de Leonardo Vieira</strong><span>Projeto independente de portfólio · Dados fictícios</span></footer>
+</body>
+</html>
